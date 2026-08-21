@@ -3,6 +3,7 @@ extends Node
 @onready var timer = $"../Timer"
 @onready var game_over_root = %GameOverRoot
 @onready var highscore_label = %HighscoreLabel
+@onready var pause_root = %PauseRoot
 
 var highscore: int = 0
 var is_paused:bool = false
@@ -10,6 +11,10 @@ var is_paused:bool = false
 func _ready():
 	timer.start(1)
 	highscore_label.text = str(highscore)
+
+func _process(delta):
+	if Input.is_action_just_pressed("pause"):
+		toggle_pause()
 
 func _on_enemy_game_over():
 	get_tree().paused = true
@@ -25,3 +30,14 @@ func _on_timer_timeout():
 	highscore += 1
 	highscore_label.text = str(highscore)
 	timer.start(1)
+
+func toggle_pause():
+	pause_root.visible = !pause_root.visible
+	get_tree().paused = !get_tree().paused
+	timer.paused = !timer.paused
+
+func _on_resume_button_pressed():
+	toggle_pause()
+
+func _on_quit_button_pressed():
+	get_tree().quit()

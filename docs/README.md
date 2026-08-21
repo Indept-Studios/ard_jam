@@ -10,7 +10,7 @@ Bäume																			done
 Punktestand (eventuell einfach überlebenszeit?!?)								done
 Game Over																		done
 Neustart																		done
-Pause Overlay																	
+Pause Overlay																	done
 Sound & Musik
 Level ist vollständig aufgebaut
 Sprites
