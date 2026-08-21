@@ -16,4 +16,4 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_collectable_collected():
-	print("PLAYER: ", "collectable collected")
+	pass ## bring in modifier

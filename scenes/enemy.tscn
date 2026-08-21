@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://deet1vbsx6s3x"]
+
+[ext_resource type="Script" uid="uid://dhr1nh0ymcn8b" path="res://scripts/enemy.gd" id="1_3i4hm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_715ky"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_prkih"]
+radius = 13.0
+height = 38.0
+
+[node name="Enemy" type="CharacterBody2D" unique_id=740114733 node_paths=PackedStringArray("player")]
+z_index = 2
+collision_layer = 2
+script = ExtResource("1_3i4hm")
+player = NodePath("")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1061993834]
+offset_left = -10.0
+offset_top = -15.0
+offset_right = 10.0
+offset_bottom = 15.0
+color = Color(1, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=247230467]
+shape = SubResource("CapsuleShape2D_715ky")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1127802750]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1708444051]
+shape = SubResource("CapsuleShape2D_prkih")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

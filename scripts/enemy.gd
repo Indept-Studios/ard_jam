@@ -6,6 +6,10 @@ signal game_over
 
 var speed: float = 150.0
 
+func _ready():
+	if not player:
+		push_error("enemy.gd: on ", self.name, ", no player is set")
+
 func _physics_process(delta: float) -> void:
 	if player:
 		var direction = (player.global_position - global_position).normalized()
