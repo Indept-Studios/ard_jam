@@ -10,7 +10,7 @@ func _ready():
 	if not player:
 		push_error("enemy.gd: on ", self.name, ", no player is set")
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta) -> void:
 	if player:
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed

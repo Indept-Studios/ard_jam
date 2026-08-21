@@ -1,4 +1,5 @@
-Godot Test Project for ARD-GameJam
+Godot Project for ARD-GameJam
+https://itch.io/jam/-ard-game-jam-2026
 
 1.0
 ----------------

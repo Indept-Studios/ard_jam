@@ -5,13 +5,9 @@
 [ext_resource type="Script" uid="uid://djnhj5ir1osjh" path="res://scripts/player.gd" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://40p2yv865iwr" path="res://DEBUG/debug_text_overlay.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://dtgrp8lwtfciw" path="res://scenes/tree.tscn" id="3_u5sy4"]
-[ext_resource type="Script" uid="uid://dhvve5gu5sdbr" path="res://scripts/collectable.gd" id="4_iywne"]
 [ext_resource type="PackedScene" uid="uid://deet1vbsx6s3x" path="res://scenes/enemy.tscn" id="5_gee14"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_715ky"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_715ky"]
-radius = 8.5440035
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_715ky"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -65,9 +61,11 @@ process_mode = 3
 [node name="Systems" type="Node" parent="." unique_id=1208053459]
 
 [node name="Timer" type="Timer" parent="Systems" unique_id=1126025573]
+process_mode = 1
 autostart = true
 
 [node name="GameManager" type="Node" parent="Systems" unique_id=82711580]
+process_mode = 3
 script = ExtResource("1_p57ef")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=813564123]
@@ -93,6 +91,21 @@ process_mode = 1
 [node name="Tree" parent="World/LevelRoot" unique_id=1931489298 instance=ExtResource("3_u5sy4")]
 position = Vector2(276, 17)
 
+[node name="CollectableSpawner" type="Node2D" parent="World/LevelRoot" unique_id=471409363]
+
+[node name="CollectableSpawner1" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1192438315]
+position = Vector2(666, 136)
+
+[node name="CollectableSpawner2" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=261848474]
+position = Vector2(466, 457)
+
+[node name="CollectableSpawner3" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1526648913]
+position = Vector2(1014, 232)
+
+[node name="EnemySpawner" type="Node2D" parent="World/LevelRoot" unique_id=563574248]
+
+[node name="EnemySpawner" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=279943719]
+
 [node name="EntityRoot" type="Node2D" parent="World" unique_id=1015858661]
 
 [node name="Player" type="CharacterBody2D" parent="World/EntityRoot" unique_id=440469878 groups=["Player"]]
@@ -114,15 +127,6 @@ shape = SubResource("CapsuleShape2D_715ky")
 [node name="Enemy" parent="World/EntityRoot" unique_id=740114733 node_paths=PackedStringArray("player") instance=ExtResource("5_gee14")]
 position = Vector2(951, 336)
 player = NodePath("../Player")
-
-[node name="Collectable" type="Area2D" parent="World/EntityRoot" unique_id=1343903998]
-position = Vector2(667, 138)
-collision_layer = 4
-script = ExtResource("4_iywne")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/EntityRoot/Collectable" unique_id=549802509]
-shape = SubResource("CircleShape2D_715ky")
-debug_color = Color(0.6872238, 0.5001265, 5.7756904e-07, 0.41960785)
 
 [node name="EffectRoot" type="Node2D" parent="World" unique_id=484486254]
 
@@ -168,6 +172,7 @@ layer = 20
 
 [node name="PauseRoot" type="Control" parent="PauseLayer" unique_id=995868402]
 unique_name_in_owner = true
+process_mode = 3
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -209,6 +214,7 @@ layer = 30
 
 [node name="GameOverRoot" type="Control" parent="GameOverLayer" unique_id=232704128]
 unique_name_in_owner = true
+process_mode = 3
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -281,8 +287,6 @@ script = ExtResource("1_yqjtg")
 
 [connection signal="timeout" from="Systems/Timer" to="Systems/GameManager" method="_on_timer_timeout"]
 [connection signal="game_over" from="World/EntityRoot/Enemy" to="Systems/GameManager" method="_on_enemy_game_over"]
-[connection signal="body_entered" from="World/EntityRoot/Collectable" to="World/EntityRoot/Collectable" method="_on_body_entered"]
-[connection signal="collected" from="World/EntityRoot/Collectable" to="World/EntityRoot/Player" method="_on_collectable_collected"]
 [connection signal="pressed" from="PauseLayer/PauseRoot/PanelContainer/CenterContainer/VBoxContainer/ResumeButton" to="Systems/GameManager" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseRoot/PanelContainer/CenterContainer/VBoxContainer/QuitButton" to="Systems/GameManager" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/RestartButton" to="Systems/GameManager" method="_on_restart_button_pressed"]
