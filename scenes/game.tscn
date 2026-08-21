@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://cwvbtryphodq5"]
+
+[ext_resource type="Script" uid="uid://col3wxbvotci7" path="res://DEBUG/debug_root.gd" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://40p2yv865iwr" path="res://DEBUG/debug_text_overlay.tscn" id="2_lnu2h"]
+
+[node name="Game" type="Node" unique_id=1746773538]
+process_mode = 3
+
+[node name="Systems" type="Node" parent="." unique_id=1208053459]
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=813564123]
+layer = -10
+
+[node name="BackgroundRoot" type="Control" parent="BackgroundLayer" unique_id=77078873]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DebugTextOverlay" parent="BackgroundLayer/BackgroundRoot" unique_id=1298185809 instance=ExtResource("2_lnu2h")]
+layout_mode = 1
+
+[node name="World" type="Node2D" parent="." unique_id=318973995]
+process_mode = 1
+
+[node name="LevelRoot" type="Node2D" parent="World" unique_id=427603853]
+
+[node name="EntityRoot" type="Node2D" parent="World" unique_id=1015858661]
+
+[node name="EffectRoot" type="Node2D" parent="World" unique_id=484486254]
+
+[node name="HudLayer" type="CanvasLayer" parent="." unique_id=845528706]
+process_mode = 1
+layer = 10
+
+[node name="HudRoot" type="Control" parent="HudLayer" unique_id=1199398240]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=1003817973]
+process_mode = 2
+layer = 20
+
+[node name="PauseRoot" type="Control" parent="PauseLayer" unique_id=995868402]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TransitionLayer" type="CanvasLayer" parent="." unique_id=1983829279]
+process_mode = 3
+layer = 100
+
+[node name="TransitionRoot" type="Control" parent="TransitionLayer" unique_id=232704128]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1270328989]
+process_mode = 3
+layer = 128
+visible = false
+
+[node name="DebugRoot" type="Control" parent="DebugLayer" unique_id=1457484358]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_yqjtg")
