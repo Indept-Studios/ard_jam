@@ -7,9 +7,9 @@ Spieler kann nicht aus dem Bild laufen											done
 Objekte können aufgesammelt werden												done
 Ein Gegnertyp 																	done
 Bäume																			done
-Punktestand (eventuell einfach überlebenszeit?!?)								
-Game Over																		
-Neustart																		
+Punktestand (eventuell einfach überlebenszeit?!?)								done
+Game Over																		done
+Neustart																		done
 Pause Overlay																	
 Sound & Musik
 Level ist vollständig aufgebaut
