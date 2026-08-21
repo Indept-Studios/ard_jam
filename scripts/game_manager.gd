@@ -1,15 +1,15 @@
 extends Node
 
-@onready var timer = $"../Timer"
+@onready var timer = %Timer
 @onready var game_over_root = %GameOverRoot
 @onready var highscore_label = %HighscoreLabel
 @onready var pause_root = %PauseRoot
-@onready var collectable_spawner = $"../../World/LevelRoot/CollectableSpawner"
+@onready var collectable_spawner = %CollectableSpawner
 
 const COLLECTABLE = preload("uid://df1b2gd4xli0d")
 
-var spawners: Array[Node]
-var occupied_spawners: Array[Node] = []
+var spawners: Array[Marker2D]
+var occupied_spawners: Array[Marker2D] = []
 var highscore: int = 0
 var max_collectables: int = 2
 var collectable_count: int = 0
@@ -71,8 +71,7 @@ func _spawn(spawner: Node2D) -> void:
 	collectable.collected.connect(func():
 		_on_collectable_collected(spawner)
 	)
-
-	collectable_spawner.add_child(collectable)
+	%CollectableRoot.add_child(collectable)
 	collectable.global_position = spawner.global_position
 	collectable.name = "collectable_" + str(collectable_count)
 	collectable_count += 1

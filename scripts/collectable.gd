@@ -7,6 +7,7 @@ signal collected
 func _draw():
 	draw_circle(Vector2.ZERO, radius, Color.ORANGE)
 
-func _on_body_entered(body):
-	collected.emit()
-	queue_free()
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		collected.emit()
+		queue_free()

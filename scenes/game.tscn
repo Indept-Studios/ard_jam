@@ -61,6 +61,7 @@ process_mode = 3
 [node name="Systems" type="Node" parent="." unique_id=1208053459]
 
 [node name="Timer" type="Timer" parent="Systems" unique_id=1126025573]
+unique_name_in_owner = true
 process_mode = 1
 autostart = true
 
@@ -88,10 +89,11 @@ process_mode = 1
 
 [node name="LevelRoot" type="Node2D" parent="World" unique_id=427603853]
 
-[node name="Tree" parent="World/LevelRoot" unique_id=1931489298 instance=ExtResource("3_u5sy4")]
-position = Vector2(276, 17)
+[node name="CollectableRoot" type="Node2D" parent="World/LevelRoot" unique_id=1496193316]
+unique_name_in_owner = true
 
 [node name="CollectableSpawner" type="Node2D" parent="World/LevelRoot" unique_id=471409363]
+unique_name_in_owner = true
 
 [node name="CollectableSpawner1" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1192438315]
 position = Vector2(666, 136)
@@ -102,9 +104,16 @@ position = Vector2(466, 457)
 [node name="CollectableSpawner3" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1526648913]
 position = Vector2(1014, 232)
 
+[node name="EnemyRoot" type="Node2D" parent="World/LevelRoot" unique_id=436709445]
+
 [node name="EnemySpawner" type="Node2D" parent="World/LevelRoot" unique_id=563574248]
 
 [node name="EnemySpawner" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=279943719]
+
+[node name="TreeRoot" type="Node2D" parent="World/LevelRoot" unique_id=50455798]
+
+[node name="Tree" parent="World/LevelRoot/TreeRoot" unique_id=1931489298 instance=ExtResource("3_u5sy4")]
+position = Vector2(276, 17)
 
 [node name="EntityRoot" type="Node2D" parent="World" unique_id=1015858661]
 
