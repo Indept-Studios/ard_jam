@@ -1,41 +1,47 @@
-Godot Project for ARD-GameJam
-https://itch.io/jam/-ard-game-jam-2026
+# ARD Game Jam 2026
 
-1.0
-----------------
-Spieler kann sich bewegen 														done
-Spieler kann nicht aus dem Bild laufen											done
-Objekte können aufgesammelt werden												done
-Ein Gegnertyp 																	done
-Bäume																			done
-Punktestand (eventuell einfach überlebenszeit?!?)								done
-Game Over																		done
-Neustart																		done
-Pause Overlay																	done
-Enemy Spawner
-multiple collectables (like kill ghosts, speed, etc.)
-multiple tree sprites
-Sound & Musik
-Level ist vollständig aufgebaut
-Sprites
+Godot project for the [ARD Game Jam 2026](https://itch.io/jam/-ard-game-jam-2026).
 
-Reaktionen auf das Thema (Body & Mind (Körper & Geist)) 
-The physical body and the conscious mind, and the relationship between them.
-----------------
-Was ist der Spieler?				???
-Was ist der Gegner?					Geister
-Wo spielt es sich ab?				Maybe Friedhof
-Was wird eingesammelt?				Flaks
+## Version 1.0 – Fortschritt
 
-Benötigte Sprites 48x48
-----------------
-Spieler
-Enemys
-Pickup
-Boden
-Bäume
-UI Icons (nach Game Buttons suchen
-- Musik (Musiknote)
-- Sound (on/off)
-- Resume 
-- Restart
+| Aufgabe | Status |
+| --- | :---: |
+| Spieler kann sich bewegen | done |
+| Spieler kann nicht aus dem Bild laufen | done |
+| Objekte können aufgesammelt werden | done |
+| Ein Gegnertyp | done |
+| Bäume | done |
+| Punktestand (eventuell einfach Überlebenszeit?) | done |
+| Game Over | done |
+| Neustart | done |
+| Pause-Overlay | done |
+| Enemy Spawner | |
+| Mehrere Collectables (z. B. Geister besiegen, Tempo) | |
+| Mehrere Baum-Sprites | |
+| Sound & Musik | |
+| Level vollständig aufbauen | |
+| Sprites | |
+
+## Thema: Body & Mind (Körper & Geist)
+
+> The physical body and the conscious mind, and the relationship between them.
+
+| Frage | Idee |
+| --- | --- |
+| Was ist der Spieler? | ??? |
+| Was ist der Gegner? | Geister |
+| Wo spielt es sich ab? | Vielleicht ein Friedhof |
+| Was wird eingesammelt? | Flasks |
+
+## Benötigte Sprites (48 × 48 px)
+
+- Spieler
+- Gegner
+- Pickup
+- Boden
+- Bäume
+- UI-Icons
+  - Musik (Musiknote)
+  - Sound an/aus
+  - Resume
+  - Restart
