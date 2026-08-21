@@ -13,6 +13,7 @@ func _ready():
 
 func _on_enemy_game_over():
 	get_tree().paused = true
+	timer.stop()
 	game_over_root.visible = true
 
 func _on_restart_button_pressed():
