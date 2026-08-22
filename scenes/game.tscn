@@ -94,6 +94,7 @@ unique_name_in_owner = true
 
 [node name="CollectableSpawner" type="Node2D" parent="World/LevelRoot" unique_id=471409363]
 unique_name_in_owner = true
+visible = false
 
 [node name="CollectableSpawner1" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1192438315]
 position = Vector2(666, 136)
@@ -104,11 +105,76 @@ position = Vector2(466, 457)
 [node name="CollectableSpawner3" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1526648913]
 position = Vector2(1014, 232)
 
+[node name="CollectableSpawner4" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1629997321]
+position = Vector2(1033, 570)
+
+[node name="CollectableSpawner5" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1752158491]
+position = Vector2(193, 538)
+
+[node name="CollectableSpawner6" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1144863423]
+position = Vector2(1049, 90)
+
+[node name="CollectableSpawner7" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1464431583]
+position = Vector2(726, 548)
+
+[node name="CollectableSpawner8" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=1913155489]
+position = Vector2(188, 120)
+
+[node name="CollectableSpawner9" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=823314582]
+position = Vector2(515, 259)
+
+[node name="CollectableSpawner10" type="Marker2D" parent="World/LevelRoot/CollectableSpawner" unique_id=651900067]
+position = Vector2(199, 315)
+
 [node name="EnemyRoot" type="Node2D" parent="World/LevelRoot" unique_id=436709445]
 
 [node name="EnemySpawner" type="Node2D" parent="World/LevelRoot" unique_id=563574248]
+visible = false
 
 [node name="EnemySpawner" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=279943719]
+position = Vector2(393, 122)
+
+[node name="EnemySpawner2" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1553812183]
+position = Vector2(902, 156)
+
+[node name="EnemySpawner3" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1935907833]
+position = Vector2(875, 484)
+
+[node name="EnemySpawner4" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1838520582]
+position = Vector2(275, 523)
+
+[node name="EnemySpawner5" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=312102275]
+position = Vector2(73, 72)
+
+[node name="EnemySpawner6" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=724959528]
+position = Vector2(1069, 101)
+
+[node name="EnemySpawner7" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1869525823]
+position = Vector2(1023, 594)
+
+[node name="EnemySpawner8" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1699368978]
+position = Vector2(544, 359)
+
+[node name="EnemySpawner9" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=780326134]
+position = Vector2(627, 610)
+
+[node name="EnemySpawner10" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1937011372]
+position = Vector2(681, 99)
+
+[node name="EnemySpawner11" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=421668959]
+position = Vector2(111, 402)
+
+[node name="EnemySpawner12" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=977257403]
+position = Vector2(1079, 352)
+
+[node name="EnemySpawner13" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=1989892931]
+position = Vector2(765, 343)
+
+[node name="EnemySpawner14" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=951708040]
+position = Vector2(387, 314)
+
+[node name="EnemySpawner15" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=39554732]
+position = Vector2(612, 207)
 
 [node name="TreeRoot" type="Node2D" parent="World/LevelRoot" unique_id=50455798]
 
