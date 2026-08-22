@@ -1,4 +1,5 @@
 extends Node
+
 @export var collectable_definitions: Array[CollectableDefinition] = []
 
 @onready var timer = %Timer
@@ -17,7 +18,9 @@ const ENEMY = preload("uid://deet1vbsx6s3x")
 const SPIRIT_BOMB = preload("res://scenes/spirit_bomb.tscn")
 const SPIRIT_TARGET = preload("res://resources/spirit_target.tres")
 const SPIRIT_KILL_RADIUS := 35.0
-const SPIRIT_READY_AFTER := 15.0
+const SPIRIT_READY_AFTER := 10.0
+const SPIRIT_TRANSFORM_DURATION := 6.0
+const SPIRIT_TRANSFORM_START_AFTER := SPIRIT_READY_AFTER - SPIRIT_TRANSFORM_DURATION
 const SPIRIT_TARGET_DURATION := 6.0
 const SPIRIT_TARGET_SCORE := 5
 const SPIRIT_BOMB_KILL_SCORE := 4
@@ -30,6 +33,7 @@ var collectable_count: int = 0
 
 var player_mode = PlayerMode.NORMAL
 var time_since_last_collectable := 0.0
+var is_transforming := false
 var spirit_target_active := false
 var spirit_target_collectable: Collectable
 var spirit_target_spawner: Marker2D
@@ -95,9 +99,10 @@ func _on_timer_timeout():
 	highscore_label.text = str(highscore)
 	time_since_last_collectable += 1
 	if player_mode == PlayerMode.NORMAL:
-		player.set_spirit_readiness(
-			time_since_last_collectable / SPIRIT_READY_AFTER
-		)
+		if not is_transforming and time_since_last_collectable >= SPIRIT_TRANSFORM_START_AFTER:
+			is_transforming = true
+			player.start_spirit_transformation()
+
 		if time_since_last_collectable >= SPIRIT_READY_AFTER:
 			start_spirit_mode()
 
@@ -144,11 +149,12 @@ func _on_collectable_collected(spawner: Node2D, definition: CollectableDefinitio
 	occupied_collectable_spawners.erase(spawner)
 	_pick_spawner.call_deferred()
 	time_since_last_collectable = 0
-
+	if is_transforming:
+		is_transforming = false
+		player.set_spirit_mode(false)
 	if player_mode == PlayerMode.SPIRIT:
 		_end_spirit_mode()
 
-	player.set_spirit_readiness(0.0)
 	_apply_effect(definition)
 
 func _apply_effect(definition):
@@ -181,6 +187,7 @@ func _on_enemy_hit(enemy: CharacterBody2D):
 	_game_over()
 
 func start_spirit_mode() -> void:
+	is_transforming = false
 	player_mode = PlayerMode.SPIRIT
 	player.set_spirit_mode(true)
 

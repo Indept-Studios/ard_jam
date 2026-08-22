@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://deet1vbsx6s3x"]
 
 [ext_resource type="Script" uid="uid://dhr1nh0ymcn8b" path="res://scripts/enemy.gd" id="1_3i4hm"]
+[ext_resource type="Texture2D" uid="uid://d3do083pe40is" path="res://sprites/ghost_02.png" id="2_md0e3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_715ky"]
 
@@ -13,12 +14,8 @@ z_index = 2
 collision_layer = 2
 script = ExtResource("1_3i4hm")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1061993834]
-offset_left = -10.0
-offset_top = -15.0
-offset_right = 10.0
-offset_bottom = 15.0
-color = Color(1, 0, 0, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=765269727]
+texture = ExtResource("2_md0e3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=247230467]
 shape = SubResource("CapsuleShape2D_715ky")

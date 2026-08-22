@@ -1,8 +1,7 @@
 extends CharacterBody2D
 
 @onready var screen_size = get_viewport_rect().size
-@onready var color_rect: ColorRect = $ColorRect
-@onready var player_sprite: Sprite2D = $Sprite2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 @export var normal_texture: Texture2D
 @export var spirit_texture: Texture2D
@@ -22,6 +21,7 @@ func _ready() -> void:
 	shield_timer.one_shot = true
 	shield_timer.timeout.connect(_on_shield_timer_timeout)
 	add_child(shield_timer)
+	animated_sprite.play("normal")
 
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -35,12 +35,15 @@ func _physics_process(delta):
 
 func set_spirit_mode(enabled: bool) -> void:
 	if enabled:
-		player_sprite.texture = spirit_texture
+		animated_sprite.play("spirit")
 		set_collision_mask_value(4, false)
 	else:
-		player_sprite.texture = normal_texture
+		animated_sprite.play("normal")
 		set_collision_mask_value(4, true)
 
+func start_spirit_transformation() -> void:
+	animated_sprite.play("transform_to_spirit")
+	
 func set_modifier(definition: CollectableDefinition) -> void:
 	if definition.effect_type == CollectableDefinition.EffectType.SPEED:
 		var previous_speed_modifier := speed_modifier
@@ -82,10 +85,3 @@ func _draw() -> void:
 			Color(1.0, 0.82, 0.25, 1.0),
 			2.0
 		)
-
-func set_spirit_readiness(progress: float) -> void:
-	var clamped_progress := clampf(progress, 0.0, 1.0)
-	color_rect.color = Color.BLUE.lerp(
-		Color.MEDIUM_PURPLE,
-		clamped_progress
-	)
