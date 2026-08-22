@@ -3,9 +3,6 @@ extends CharacterBody2D
 @onready var screen_size = get_viewport_rect().size
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-@export var normal_texture: Texture2D
-@export var spirit_texture: Texture2D
-
 var speed: float = 200.0
 var speed_modifier: float = 1.0
 var speed_timer: Timer
@@ -27,7 +24,7 @@ func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * (speed * speed_modifier)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	get_input()
 	move_and_slide()
 	position.x = clamp(position.x, 0, screen_size.x)
@@ -46,7 +43,6 @@ func start_spirit_transformation() -> void:
 	
 func set_modifier(definition: CollectableDefinition) -> void:
 	if definition.effect_type == CollectableDefinition.EffectType.SPEED:
-		var previous_speed_modifier := speed_modifier
 		speed_modifier = definition.strength
 		speed_timer.start(speed_timer.time_left + definition.duration)
 		queue_redraw()

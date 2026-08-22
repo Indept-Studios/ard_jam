@@ -9,8 +9,6 @@
 [ext_resource type="Resource" uid="uid://0gv15hkg44in" path="res://resources/speed_boost.tres" id="4_kvpfn"]
 [ext_resource type="Resource" uid="uid://dlm64ybokgbql" path="res://resources/spirit_bomb.tres" id="5_dinhu"]
 [ext_resource type="Texture2D" uid="uid://brrnn7i1r05dx" path="res://sprites/tree_02.png" id="7_kvpfn"]
-[ext_resource type="Texture2D" uid="uid://cmtfgfrywjare" path="res://sprites/player_02.png" id="9_vtaks"]
-[ext_resource type="Texture2D" uid="uid://d3jxj1d6chpf" path="res://sprites/player_02_lila.png" id="10_kvpfn"]
 [ext_resource type="Texture2D" uid="uid://lt0kca1scwgk" path="res://sprites/player_test.png" id="11_dinhu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dinhu"]
@@ -263,8 +261,6 @@ position = Vector2(387, 314)
 [node name="EnemySpawner15" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=39554732]
 position = Vector2(612, 207)
 
-[node name="TreeRoot" type="Node2D" parent="World/LevelRoot" unique_id=50455798]
-
 [node name="TileMapLayer" type="TileMapLayer" parent="World/LevelRoot" unique_id=1891192324]
 z_index = 3
 scale = Vector2(2, 2)
@@ -279,8 +275,6 @@ z_index = 1
 position = Vector2(233, 174)
 collision_mask = 12
 script = ExtResource("2_lbhrr")
-normal_texture = ExtResource("9_vtaks")
-spirit_texture = ExtResource("10_kvpfn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/EntityRoot/Player" unique_id=1049177841]
 shape = SubResource("CapsuleShape2D_715ky")
