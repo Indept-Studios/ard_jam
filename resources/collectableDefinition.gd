@@ -11,4 +11,4 @@ enum EffectType {
 @export var radius: float = 0.0
 @export var duration: float = 0.0
 @export var strength: float = 1.0
-@export var color: Color = Color.ORANGE
+@export var color: Color = Color.WHITE

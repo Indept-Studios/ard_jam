@@ -1,4 +1,5 @@
 extends Node
+@export var collectable_definitions: Array[CollectableDefinition] = []
 
 @onready var timer = %Timer
 @onready var spawn_timer = %SpawnTimer
@@ -98,21 +99,33 @@ func _pick_spawner():
 	
 func _spawn_collectable(spawner: Node2D) -> void:
 	var collectable = COLLECTABLE.instantiate()
+	var definition: CollectableDefinition = collectable_definitions.pick_random()
+	collectable.setup(definition)
 
-	collectable.collected.connect(func():
-		_on_collectable_collected(spawner)
+	collectable.collected.connect(func(collected_definition: CollectableDefinition):
+		_on_collectable_collected(spawner, collected_definition)
 	)
 	%CollectableRoot.add_child(collectable)
 	collectable.global_position = spawner.global_position
 	collectable.name = "collectable_" + str(collectable_count)
 	collectable_count += 1
 
-func _on_collectable_collected(spawner: Node2D) -> void:
+func _on_collectable_collected(spawner: Node2D, definition: CollectableDefinition) -> void:
 	collectable_count -= 1
 	occupied_collectable_spawners.erase(spawner)
 	_pick_spawner.call_deferred()
 	time_since_last_collectable = 0
+	_apply_effect(definition)
 
+func _apply_effect(definition):
+	if definition.effect_type == CollectableDefinition.EffectType.SPEED:
+		player.set_modifier(definition)
+	elif definition.effect_type == CollectableDefinition.EffectType.EXPLOSION:
+		# explosion mechanic
+		pass
+	elif definition.effect_type == CollectableDefinition.EffectType.INVULNERABLE:
+		player.set_modifier(definition)
+	
 func _on_enemy_hit(enemy: CharacterBody2D):
 	if player_mode == PlayerMode.SPIRIT:
 		enemy.queue_free()

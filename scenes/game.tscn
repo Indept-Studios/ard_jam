@@ -2,9 +2,13 @@
 
 [ext_resource type="Script" uid="uid://nexb13c3au2h" path="res://scripts/game_manager.gd" id="1_p57ef"]
 [ext_resource type="Script" uid="uid://chc7omd7m2cfd" path="res://DEBUG/debug_root.gd" id="1_yqjtg"]
+[ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="2_0tnpc"]
 [ext_resource type="Script" uid="uid://djnhj5ir1osjh" path="res://scripts/player.gd" id="2_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://40p2yv865iwr" path="res://DEBUG/debug_text_overlay.tscn" id="2_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://dtgrp8lwtfciw" path="res://scenes/tree.tscn" id="3_u5sy4"]
+[ext_resource type="Resource" uid="uid://d4g3e35cm2epk" path="res://resources/shield.tres" id="3_vtaks"]
+[ext_resource type="Resource" uid="uid://0gv15hkg44in" path="res://resources/speed_boost.tres" id="4_kvpfn"]
+[ext_resource type="Resource" uid="uid://dlm64ybokgbql" path="res://resources/spirit_bomb.tres" id="5_dinhu"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_715ky"]
 
@@ -71,6 +75,7 @@ process_mode = 1
 [node name="GameManager" type="Node" parent="Systems" unique_id=82711580]
 process_mode = 3
 script = ExtResource("1_p57ef")
+collectable_definitions = Array[ExtResource("2_0tnpc")]([ExtResource("3_vtaks"), ExtResource("4_kvpfn"), ExtResource("5_dinhu")])
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=813564123]
 layer = -10
