@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CollectableDefinition" format=3 uid="uid://0gv15hkg44in"]
+
+[ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="1_7f6i6"]
+
+[resource]
+script = ExtResource("1_7f6i6")
+display_name = "SpeedBoost"
+duration = 5.0
+strength = 1.25
+metadata/_custom_type_script = "uid://rplvial1j3fy"

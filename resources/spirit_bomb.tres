@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CollectableDefinition" format=3 uid="uid://dlm64ybokgbql"]
+
+[ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="1_ddabp"]
+
+[resource]
+script = ExtResource("1_ddabp")
+display_name = "Spirit Bomb"
+effect_type = 1
+radius = 25.0
+metadata/_custom_type_script = "uid://rplvial1j3fy"

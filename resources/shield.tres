@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CollectableDefinition" format=3 uid="uid://d4g3e35cm2epk"]
+
+[ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="1_foqxm"]
+
+[resource]
+script = ExtResource("1_foqxm")
+display_name = "Shield"
+effect_type = 2
+duration = 5.0
+metadata/_custom_type_script = "uid://rplvial1j3fy"
