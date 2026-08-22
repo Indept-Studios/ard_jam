@@ -129,6 +129,7 @@ position = Vector2(199, 315)
 [node name="EnemyRoot" type="Node2D" parent="World/LevelRoot" unique_id=436709445]
 
 [node name="EnemySpawner" type="Node2D" parent="World/LevelRoot" unique_id=563574248]
+unique_name_in_owner = true
 visible = false
 
 [node name="EnemySpawner" type="Marker2D" parent="World/LevelRoot/EnemySpawner" unique_id=279943719]
@@ -184,9 +185,10 @@ position = Vector2(276, 17)
 [node name="EntityRoot" type="Node2D" parent="World" unique_id=1015858661]
 
 [node name="Player" type="CharacterBody2D" parent="World/EntityRoot" unique_id=440469878 groups=["Player"]]
+unique_name_in_owner = true
 z_index = 1
 position = Vector2(212, 250)
-collision_mask = 14
+collision_mask = 12
 script = ExtResource("2_lbhrr")
 
 [node name="ColorRect" type="ColorRect" parent="World/EntityRoot/Player" unique_id=551686624]
@@ -199,8 +201,14 @@ color = Color(0, 0, 1, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/EntityRoot/Player" unique_id=1049177841]
 shape = SubResource("CapsuleShape2D_715ky")
 
-[node name="Enemy" parent="World/EntityRoot" unique_id=740114733 node_paths=PackedStringArray("player") instance=ExtResource("5_gee14")]
+[node name="Enemy" parent="World/EntityRoot" unique_id=544727843 node_paths=PackedStringArray("player") groups=["Enemies"] instance=ExtResource("5_gee14")]
 position = Vector2(951, 336)
+collision_mask = 0
+player = NodePath("../Player")
+
+[node name="Enemy2" parent="World/EntityRoot" unique_id=740114733 node_paths=PackedStringArray("player") groups=["Enemies"] instance=ExtResource("5_gee14")]
+position = Vector2(930, 220)
+collision_mask = 0
 player = NodePath("../Player")
 
 [node name="EffectRoot" type="Node2D" parent="World" unique_id=484486254]
@@ -361,7 +369,8 @@ mouse_filter = 2
 script = ExtResource("1_yqjtg")
 
 [connection signal="timeout" from="Systems/Timer" to="Systems/GameManager" method="_on_timer_timeout"]
-[connection signal="game_over" from="World/EntityRoot/Enemy" to="Systems/GameManager" method="_on_enemy_game_over"]
+[connection signal="enemy_hit" from="World/EntityRoot/Enemy" to="Systems/GameManager" method="_on_enemy_enemy_hit"]
+[connection signal="enemy_hit" from="World/EntityRoot/Enemy2" to="Systems/GameManager" method="_on_enemy_enemy_hit"]
 [connection signal="pressed" from="PauseLayer/PauseRoot/PanelContainer/CenterContainer/VBoxContainer/ResumeButton" to="Systems/GameManager" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseRoot/PanelContainer/CenterContainer/VBoxContainer/QuitButton" to="Systems/GameManager" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/RestartButton" to="Systems/GameManager" method="_on_restart_button_pressed"]

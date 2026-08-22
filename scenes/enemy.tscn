@@ -8,11 +8,10 @@
 radius = 13.0
 height = 38.0
 
-[node name="Enemy" type="CharacterBody2D" unique_id=740114733 node_paths=PackedStringArray("player")]
+[node name="Enemy" type="CharacterBody2D" unique_id=740114733]
 z_index = 2
 collision_layer = 2
 script = ExtResource("1_3i4hm")
-player = NodePath("")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1061993834]
 offset_left = -10.0
@@ -25,6 +24,7 @@ color = Color(1, 0, 0, 1)
 shape = SubResource("CapsuleShape2D_715ky")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1127802750]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1708444051]
 shape = SubResource("CapsuleShape2D_prkih")

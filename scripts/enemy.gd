@@ -1,20 +1,32 @@
 extends CharacterBody2D
 
-signal game_over
+signal enemy_hit
 
 @export var player: CharacterBody2D 
+@export var separation_radius := 45.0
+@export var separation_strength := 180.0
 
 var speed: float = 150.0
 
-func _ready():
+func _physics_process(_delta) -> void:
 	if not player:
-		push_error("enemy.gd: on ", self.name, ", no player is set")
+		return
+	var direction_to_player = global_position.direction_to(player.global_position)
+	var separation = Vector2.ZERO
 
-func _physics_process(delta) -> void:
-	if player:
-		var direction = (player.global_position - global_position).normalized()
-		velocity = direction * speed
-		move_and_slide()
+	for other_enemy in get_tree().get_nodes_in_group("Enemies"):
+		if other_enemy == self:
+			continue
+		var offset = global_position - other_enemy.global_position
+		var distance = offset.length()
+		if distance > 0.0 and distance < separation_radius:
+			var strength = 1.0 - (distance / separation_radius)
+			separation += offset.normalized() * strength
+
+	velocity = direction_to_player * speed
+	velocity += separation * separation_strength
+	move_and_slide()
 
 func _on_area_2d_body_entered(body):
-	game_over.emit()
+	if body.is_in_group("Player"):
+		enemy_hit.emit(self)

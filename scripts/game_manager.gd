@@ -1,36 +1,51 @@
 extends Node
 
 @onready var timer = %Timer
+@onready var player: CharacterBody2D = %Player
 @onready var game_over_root = %GameOverRoot
 @onready var highscore_label = %HighscoreLabel
 @onready var pause_root = %PauseRoot
 @onready var collectable_spawner = %CollectableSpawner
+@onready var enemy_spawner = %EnemySpawner
 
 const COLLECTABLE = preload("uid://df1b2gd4xli0d")
+const ENEMY = preload("uid://deet1vbsx6s3x")
+const SPIRIT_KILL_RADIUS := 35.0
 
-var spawners: Array[Marker2D]
+var pickup_spawners: Array[Marker2D]
 var occupied_spawners: Array[Marker2D] = []
-var highscore: int = 0
 var max_collectables: int = 2
 var collectable_count: int = 0
+
+var player_mode = PlayerMode.NORMAL
+var time_since_last_collectable := 0.0
+
+var highscore: int = 0
+
+enum PlayerMode {
+	NORMAL,
+	SPIRIT
+}
 
 func _ready():
 	timer.start(1)
 	highscore_label.text = str(highscore)
 	for child in collectable_spawner.get_children():
 		if child is Node2D:
-			spawners.append(child)
+			pickup_spawners.append(child)
 	_pick_spawner()
 
 func _process(_delta):
 	if Input.is_action_just_pressed("pause"):
 		toggle_pause()
 
-func _on_enemy_game_over():
-	get_tree().paused = true
-	timer.stop()
-	game_over_root.visible = true
-
+func _physics_process(_delta: float) -> void:
+	if player_mode != PlayerMode.SPIRIT:
+		return
+	for enemy in get_tree().get_nodes_in_group("Enemies"):
+		if enemy.global_position.distance_to(player.global_position) <= SPIRIT_KILL_RADIUS:
+			enemy.queue_free()
+			
 func _on_restart_button_pressed():
 	get_tree().paused = false
 	game_over_root.visible = false
@@ -39,6 +54,7 @@ func _on_restart_button_pressed():
 func _on_timer_timeout():
 	highscore += 1
 	highscore_label.text = str(highscore)
+	time_since_last_collectable += 1
 
 func toggle_pause():
 	pause_root.visible = !pause_root.visible
@@ -54,7 +70,7 @@ func _pick_spawner():
 	while collectable_count < max_collectables:
 		var free_spawners: Array[Node] = []
 
-		for spawner in spawners:
+		for spawner in pickup_spawners:
 			if spawner not in occupied_spawners:
 				free_spawners.append(spawner)
 
@@ -80,3 +96,21 @@ func _on_collectable_collected(spawner: Node2D) -> void:
 	collectable_count -= 1
 	occupied_spawners.erase(spawner)
 	_pick_spawner.call_deferred()
+	time_since_last_collectable = 0
+
+func _on_enemy_enemy_hit(enemy: CharacterBody2D):
+	if player_mode == PlayerMode.SPIRIT:
+		enemy.queue_free()
+		return
+	
+	if time_since_last_collectable >= 10.0:
+		start_sprite_mode()
+	else:
+		get_tree().paused = true
+		timer.stop()
+		game_over_root.visible = true
+
+func start_sprite_mode():
+	print("game_manager.gd: ", "start_sprite_mode()")
+	player_mode = PlayerMode.SPIRIT
+	pass
