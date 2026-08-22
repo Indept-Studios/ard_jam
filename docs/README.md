@@ -6,9 +6,12 @@ Ein kleines Arcade-Survival-Spiel, entstanden für die [ARD Game Jam 2026](https
 
 > *The physical body and the conscious mind, and the relationship between them.*
 
-Du steuerst einen Körper, der von Geistern verfolgt wird. Bäume schützen den Körper, halten Geister jedoch nicht auf. Wenn lange keine Flask eingesammelt wird, beginnt die sichtbare Verwandlung in den Spiritmode: Der Spieler wird zum Geist, kann durch Bäume laufen und Geister vernichten.
+Du steuerst einen Körper, der von Geistern verfolgt wird. Bäume schützen den Körper, halten Geister jedoch nicht auf. 
+Wenn lange keine Flask eingesammelt wird, beginnt die sichtbare Verwandlung in den Spiritmode: 
+Der Spieler wird zum Geist, kann durch Bäume laufen und Geister vernichten.
 
-Doch Freiheit hat ihren Preis: Sobald der erste Geist im Spiritmode besiegt wird, erscheint eine lila Ziel-Flask. Sie muss vor Ablauf des Countdowns eingesammelt werden – sonst ist das Spiel vorbei.
+Doch Freiheit hat ihren Preis: Sobald der erste Geist im Spiritmode besiegt wird, erscheint eine lila Ziel-Flask. 
+Sie muss vor Ablauf des Countdowns eingesammelt werden – sonst ist das Spiel vorbei.
 
 ## Steuerung
 
@@ -46,8 +49,9 @@ Doch Freiheit hat ihren Preis: Sobald der erste Geist im Spiritmode besiegt wird
 | Spiritmode mit Ziel-Flask und Countdown | done |
 | Spieler-Sprites und Verwandlungsanimation | done |
 | Gegner- und Collectable-Sprites | done |
-| Mehrere Baum-Sprites | |
+| Boden Sprit | |
 | Score-UI verbessern | |
+| Loading-Screen inkl. Credits | |
 | Level vergrößern / weiter ausbauen | |
 | Partikel und weitere visuelle Effekte | |
 | Sound & Musik | |
@@ -64,4 +68,5 @@ DEBUG/        FPS- und Versionsanzeige
 
 ## Assets
 
-Die aktuelle Pixel-Art verwendet ein 48 × 48 px Raster. Der Player besitzt eine eigene Transformationsanimation vom blauen Körper zum lila Geist.
+Die aktuelle Pixel-Art verwendet ein 48 × 48 px Raster. 
+Der Player besitzt eine eigene Transformationsanimation vom blauen Körper zum lila Geist.
