@@ -211,6 +211,7 @@ color = Color(0, 0, 1, 1)
 shape = SubResource("CapsuleShape2D_715ky")
 
 [node name="EffectRoot" type="Node2D" parent="World" unique_id=484486254]
+unique_name_in_owner = true
 
 [node name="HudLayer" type="CanvasLayer" parent="." unique_id=845528706]
 process_mode = 1

@@ -14,6 +14,7 @@ extends Node
 const COLLECTABLE = preload("uid://df1b2gd4xli0d")
 const ENEMY = preload("uid://deet1vbsx6s3x")
 const SPIRIT_KILL_RADIUS := 35.0
+const SPIRIT_BOMB = preload("res://scenes/spirit_bomb.tscn")
 
 var pickup_spawners: Array[Marker2D]
 var occupied_collectable_spawners: Array[Marker2D] = []
@@ -121,11 +122,17 @@ func _apply_effect(definition):
 	if definition.effect_type == CollectableDefinition.EffectType.SPEED:
 		player.set_modifier(definition)
 	elif definition.effect_type == CollectableDefinition.EffectType.EXPLOSION:
-		# explosion mechanic
-		pass
+		_start_spirit_bomb(definition)
 	elif definition.effect_type == CollectableDefinition.EffectType.INVULNERABLE:
 		player.set_modifier(definition)
-	
+
+func _start_spirit_bomb(definition: CollectableDefinition) -> void:
+	var bomb = SPIRIT_BOMB.instantiate()
+
+	player.add_child(bomb)
+	bomb.position = Vector2.ZERO
+	bomb.setup(definition)
+		
 func _on_enemy_hit(enemy: CharacterBody2D):
 	if player_mode == PlayerMode.SPIRIT:
 		enemy.queue_free()

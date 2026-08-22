@@ -41,7 +41,7 @@ func set_modifier(definition: CollectableDefinition) -> void:
 		speed_timer.start(speed_timer.time_left + definition.duration)
 
 	elif definition.effect_type == CollectableDefinition.EffectType.INVULNERABLE:
-		print("bomb")
+		print("INVULNERABLE")
 
 func _on_speedtimer_timeout():
 	speed_modifier = 1.0

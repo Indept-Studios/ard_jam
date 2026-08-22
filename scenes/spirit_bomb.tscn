@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://oca1jxy2oyl0"]
+
+[ext_resource type="Script" uid="uid://bybne2uo28st1" path="res://scripts/spirit_bomb.gd" id="1_21vqo"]
+
+[node name="SpiritBomb" type="Node2D" unique_id=915911652]
+script = ExtResource("1_21vqo")
+
+[node name="DetonationTimer" type="Timer" parent="." unique_id=1215984457]
