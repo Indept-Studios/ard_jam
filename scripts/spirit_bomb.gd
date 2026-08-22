@@ -4,6 +4,7 @@ extends Node2D
 
 var definition: CollectableDefinition
 var current_radius := 0.0
+var has_detonated := false
 
 func _ready() -> void:
 	detonation_timer.one_shot = true
@@ -38,6 +39,10 @@ func _on_detonation_timer_timeout() -> void:
 		if distance <= definition.radius:
 			enemy_2d.queue_free()
 
+	has_detonated = true
+	queue_redraw()
+
+	await get_tree().create_timer(0.12).timeout
 	queue_free()
 
 func _draw() -> void:
@@ -49,7 +54,12 @@ func _draw() -> void:
 		current_radius,
 		Color(definition.color, 0.2)
 	)
-
+	if has_detonated:
+		draw_circle(
+			Vector2.ZERO,
+			definition.radius,
+			Color(1.0, 1.0, 1.0, 0.8)
+		)
 	draw_arc(
 		Vector2.ZERO,
 		current_radius,
