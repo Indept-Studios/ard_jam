@@ -1,9 +1,11 @@
 [gd_resource type="Resource" script_class="CollectableDefinition" format=3 uid="uid://d4g3e35cm2epk"]
 
 [ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="1_k0e4k"]
+[ext_resource type="Texture2D" uid="uid://dfjruv31llliq" path="res://sprites/flask_shild_02.png" id="2_ckniv"]
 
 [resource]
 script = ExtResource("1_k0e4k")
+texture = ExtResource("2_ckniv")
 display_name = "Shield"
 effect_type = 2
 duration = 5.0

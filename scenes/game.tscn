@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://d4g3e35cm2epk" path="res://resources/shield.tres" id="3_vtaks"]
 [ext_resource type="Resource" uid="uid://0gv15hkg44in" path="res://resources/speed_boost.tres" id="4_kvpfn"]
 [ext_resource type="Resource" uid="uid://dlm64ybokgbql" path="res://resources/spirit_bomb.tres" id="5_dinhu"]
+[ext_resource type="Texture2D" uid="uid://cmtfgfrywjare" path="res://sprites/player_02.png" id="9_vtaks"]
+[ext_resource type="Texture2D" uid="uid://d3jxj1d6chpf" path="res://sprites/player_02_lila.png" id="10_kvpfn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_715ky"]
 
@@ -191,6 +193,9 @@ position = Vector2(612, 207)
 [node name="Tree" parent="World/LevelRoot/TreeRoot" unique_id=1931489298 instance=ExtResource("3_u5sy4")]
 position = Vector2(276, 17)
 
+[node name="Tree2" parent="World/LevelRoot/TreeRoot" unique_id=916171366 instance=ExtResource("3_u5sy4")]
+position = Vector2(240, 17)
+
 [node name="EntityRoot" type="Node2D" parent="World" unique_id=1015858661]
 
 [node name="Player" type="CharacterBody2D" parent="World/EntityRoot" unique_id=440469878 groups=["Player"]]
@@ -199,8 +204,11 @@ z_index = 1
 position = Vector2(212, 250)
 collision_mask = 12
 script = ExtResource("2_lbhrr")
+normal_texture = ExtResource("9_vtaks")
+spirit_texture = ExtResource("10_kvpfn")
 
 [node name="ColorRect" type="ColorRect" parent="World/EntityRoot/Player" unique_id=551686624]
+visible = false
 offset_left = -10.0
 offset_top = -15.0
 offset_right = 10.0
@@ -209,6 +217,9 @@ color = Color(0, 0, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/EntityRoot/Player" unique_id=1049177841]
 shape = SubResource("CapsuleShape2D_715ky")
+
+[node name="Sprite2D" type="Sprite2D" parent="World/EntityRoot/Player" unique_id=1616161062]
+texture = ExtResource("10_kvpfn")
 
 [node name="EffectRoot" type="Node2D" parent="World" unique_id=484486254]
 unique_name_in_owner = true
@@ -331,17 +342,25 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="Control" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer" unique_id=262928836]
-custom_minimum_size = Vector2(0, 120)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="ScoreLabel" type="Label" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer" unique_id=2000178310]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "SCORE: 00"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer" unique_id=767722313]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer" unique_id=1868862262]
 layout_mode = 2
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="RestartButton" type="Button" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer/MarginContainer" unique_id=724912386]
 custom_minimum_size = Vector2(160, 45)
@@ -352,6 +371,24 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_gee14")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_0tnpc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vtaks")
 text = "RESTART"
+
+[node name="CenterContainer2" type="CenterContainer" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer" unique_id=1481764788]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer2" unique_id=1197322844]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="QuitButton" type="Button" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer2/MarginContainer" unique_id=536234663]
+custom_minimum_size = Vector2(160, 45)
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_5kx4m")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_gee14")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_0tnpc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vtaks")
+text = "QUIT"
 
 [node name="DebugLayer" type="CanvasLayer" parent="." unique_id=1270328989]
 process_mode = 3
@@ -373,3 +410,4 @@ script = ExtResource("1_yqjtg")
 [connection signal="pressed" from="PauseLayer/PauseRoot/PanelContainer/CenterContainer/VBoxContainer/ResumeButton" to="Systems/GameManager" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseRoot/PanelContainer/CenterContainer/VBoxContainer/QuitButton" to="Systems/GameManager" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer/MarginContainer/RestartButton" to="Systems/GameManager" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer/CenterContainer2/MarginContainer/QuitButton" to="Systems/GameManager" method="_on_quit_button_pressed"]

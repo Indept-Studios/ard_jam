@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CollectableDefinition" format=3 uid="uid://dun8h1qluk3r4"]
+
+[ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="1_definition"]
+[ext_resource type="Texture2D" uid="uid://d1jky10mlyney" path="res://sprites/flask_lila_02.png" id="2_l114s"]
+
+[resource]
+script = ExtResource("1_definition")
+texture = ExtResource("2_l114s")
+display_name = "Spirit Target"
+effect_type = 3
+color = Color(0.78431374, 0.34509805, 0.96862745, 1)

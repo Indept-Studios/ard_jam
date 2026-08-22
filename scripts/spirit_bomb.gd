@@ -1,5 +1,7 @@
 extends Node2D
 
+signal enemies_destroyed(amount: int)
+
 @onready var detonation_timer: Timer = $DetonationTimer
 
 var definition: CollectableDefinition
@@ -27,7 +29,7 @@ func _process(_delta: float) -> void:
 func _on_detonation_timer_timeout() -> void:
 	current_radius = definition.radius
 	queue_redraw()
-
+	var killed_enemy_count := 0
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		var enemy_2d := enemy as Node2D
 
@@ -38,7 +40,9 @@ func _on_detonation_timer_timeout() -> void:
 
 		if distance <= definition.radius:
 			enemy_2d.queue_free()
-
+			killed_enemy_count += 1
+	if killed_enemy_count > 0:
+		enemies_destroyed.emit(killed_enemy_count)
 	has_detonated = true
 	queue_redraw()
 

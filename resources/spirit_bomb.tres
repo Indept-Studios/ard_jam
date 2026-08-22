@@ -1,9 +1,11 @@
 [gd_resource type="Resource" script_class="CollectableDefinition" format=3 uid="uid://dlm64ybokgbql"]
 
 [ext_resource type="Script" uid="uid://rplvial1j3fy" path="res://resources/collectableDefinition.gd" id="1_sdl37"]
+[ext_resource type="Texture2D" uid="uid://dnrrverk42ihd" path="res://sprites/flask_bomb_02.png" id="2_qhbky"]
 
 [resource]
 script = ExtResource("1_sdl37")
+texture = ExtResource("2_qhbky")
 display_name = "Spirit Bomb"
 effect_type = 1
 radius = 80.0

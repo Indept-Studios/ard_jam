@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 @onready var screen_size = get_viewport_rect().size
 @onready var color_rect: ColorRect = $ColorRect
+@onready var player_sprite: Sprite2D = $Sprite2D
+
+@export var normal_texture: Texture2D
+@export var spirit_texture: Texture2D
 
 var speed: float = 200.0
 var speed_modifier: float = 1.0
@@ -31,10 +35,10 @@ func _physics_process(delta):
 
 func set_spirit_mode(enabled: bool) -> void:
 	if enabled:
-		color_rect.color = Color.MEDIUM_PURPLE
+		player_sprite.texture = spirit_texture
 		set_collision_mask_value(4, false)
 	else:
-		color_rect.color = Color.BLUE
+		player_sprite.texture = normal_texture
 		set_collision_mask_value(4, true)
 
 func set_modifier(definition: CollectableDefinition) -> void:
@@ -78,3 +82,10 @@ func _draw() -> void:
 			Color(1.0, 0.82, 0.25, 1.0),
 			2.0
 		)
+
+func set_spirit_readiness(progress: float) -> void:
+	var clamped_progress := clampf(progress, 0.0, 1.0)
+	color_rect.color = Color.BLUE.lerp(
+		Color.MEDIUM_PURPLE,
+		clamped_progress
+	)

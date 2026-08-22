@@ -10,11 +10,17 @@ extends Node
 @onready var collectable_spawner = %CollectableSpawner
 @onready var enemy_spawner = %EnemySpawner
 @onready var enemy_root = %EnemyRoot
+@onready var score_label = %ScoreLabel
 
 const COLLECTABLE = preload("uid://df1b2gd4xli0d")
 const ENEMY = preload("uid://deet1vbsx6s3x")
-const SPIRIT_KILL_RADIUS := 35.0
 const SPIRIT_BOMB = preload("res://scenes/spirit_bomb.tscn")
+const SPIRIT_TARGET = preload("res://resources/spirit_target.tres")
+const SPIRIT_KILL_RADIUS := 35.0
+const SPIRIT_READY_AFTER := 15.0
+const SPIRIT_TARGET_DURATION := 6.0
+const SPIRIT_TARGET_SCORE := 5
+const SPIRIT_BOMB_KILL_SCORE := 4
 
 var pickup_spawners: Array[Marker2D]
 var occupied_collectable_spawners: Array[Marker2D] = []
@@ -24,6 +30,11 @@ var collectable_count: int = 0
 
 var player_mode = PlayerMode.NORMAL
 var time_since_last_collectable := 0.0
+var spirit_target_active := false
+var spirit_target_collectable: Collectable
+var spirit_target_spawner: Marker2D
+var spirit_chain := 0
+var spirit_timer: Timer
 
 var highscore: int = 0
 var is_game_over := false
@@ -39,6 +50,11 @@ enum PlayerMode {
 func _ready():
 	timer.start(1)
 	spawn_timer.start(4.0)
+	spirit_timer = Timer.new()
+	spirit_timer.one_shot = true
+	spirit_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
+	spirit_timer.timeout.connect(_on_spirit_timer_timeout)
+	add_child(spirit_timer)
 	highscore_label.text = str(highscore)
 	for child in collectable_spawner.get_children():
 		if child is Marker2D:
@@ -52,16 +68,22 @@ func _ready():
 func _process(_delta):
 	if is_game_over:
 		return
-
+	if spirit_target_active and is_instance_valid(spirit_target_collectable):
+		spirit_target_collectable.set_countdown(spirit_timer.time_left)
 	if Input.is_action_just_pressed("pause"):
 		toggle_pause()
 
 func _physics_process(_delta: float) -> void:
 	if player_mode != PlayerMode.SPIRIT:
 		return
-	for enemy in get_tree().get_nodes_in_group("Enemies"):
-		if enemy.global_position.distance_to(player.global_position) <= SPIRIT_KILL_RADIUS:
-			enemy.queue_free()
+	for enemy_node in get_tree().get_nodes_in_group("Enemies"):
+		var enemy: CharacterBody2D = enemy_node as CharacterBody2D
+		if enemy == null:
+			continue
+
+		var distance: float = enemy.global_position.distance_to(player.global_position)
+		if distance <= SPIRIT_KILL_RADIUS:
+			_destroy_spirit_enemy(enemy)
 			
 func _on_restart_button_pressed():
 	get_tree().paused = false
@@ -72,6 +94,12 @@ func _on_timer_timeout():
 	highscore += 1
 	highscore_label.text = str(highscore)
 	time_since_last_collectable += 1
+	if player_mode == PlayerMode.NORMAL:
+		player.set_spirit_readiness(
+			time_since_last_collectable / SPIRIT_READY_AFTER
+		)
+		if time_since_last_collectable >= SPIRIT_READY_AFTER:
+			start_spirit_mode()
 
 func toggle_pause():
 	pause_root.visible = !pause_root.visible
@@ -101,12 +129,12 @@ func _pick_spawner():
 func _spawn_collectable(spawner: Node2D) -> void:
 	var collectable = COLLECTABLE.instantiate()
 	var definition: CollectableDefinition = collectable_definitions.pick_random()
-	collectable.setup(definition)
 
 	collectable.collected.connect(func(collected_definition: CollectableDefinition):
 		_on_collectable_collected(spawner, collected_definition)
 	)
 	%CollectableRoot.add_child(collectable)
+	collectable.setup(definition)
 	collectable.global_position = spawner.global_position
 	collectable.name = "collectable_" + str(collectable_count)
 	collectable_count += 1
@@ -116,6 +144,11 @@ func _on_collectable_collected(spawner: Node2D, definition: CollectableDefinitio
 	occupied_collectable_spawners.erase(spawner)
 	_pick_spawner.call_deferred()
 	time_since_last_collectable = 0
+
+	if player_mode == PlayerMode.SPIRIT:
+		_end_spirit_mode()
+
+	player.set_spirit_readiness(0.0)
 	_apply_effect(definition)
 
 func _apply_effect(definition):
@@ -128,43 +161,112 @@ func _apply_effect(definition):
 
 func _start_spirit_bomb(definition: CollectableDefinition) -> void:
 	var bomb = SPIRIT_BOMB.instantiate()
-
+	bomb.enemies_destroyed.connect(_on_spirit_bomb_enemies_destroyed)
 	player.add_child(bomb)
 	bomb.position = Vector2.ZERO
 	bomb.setup(definition)
+
+func _on_spirit_bomb_enemies_destroyed(amount: int) -> void:
+	highscore += amount * SPIRIT_BOMB_KILL_SCORE
+	highscore_label.text = str(highscore)
 		
 func _on_enemy_hit(enemy: CharacterBody2D):
 	if player_mode == PlayerMode.SPIRIT:
-		enemy.queue_free()
+		_destroy_spirit_enemy(enemy)
 		return
 	if player.is_invulnerable:
 		enemy.queue_free()
 		return
 		
-	if time_since_last_collectable >= 10.0:
-		start_sprite_mode()
-	else:
-		is_game_over = true
-		get_tree().paused = true
-		timer.stop()
-		spawn_timer.stop()
-		game_over_root.visible = true
+	_game_over()
 
-func start_sprite_mode():
+func start_spirit_mode() -> void:
 	player_mode = PlayerMode.SPIRIT
 	player.set_spirit_mode(true)
-	var sprite_timer = Timer.new()
-	sprite_timer.one_shot = true
-	sprite_timer.timeout.connect(_on_sprite_timer_timeout)
-	sprite_timer.timeout.connect(sprite_timer.queue_free)
-	add_child(sprite_timer)
-	sprite_timer.start(10)
-	
-func _on_sprite_timer_timeout():
+
+func _destroy_spirit_enemy(enemy: CharacterBody2D) -> void:
+	if not is_instance_valid(enemy):
+		return
+
+	enemy.queue_free()
+
+	if not spirit_target_active:
+		spirit_target_active = true
+		_start_spirit_challenge.call_deferred()
+
+func _start_spirit_challenge() -> void:
+	if player_mode != PlayerMode.SPIRIT or not spirit_target_active:
+		return
+
+	spirit_timer.start(SPIRIT_TARGET_DURATION)
+	_spawn_spirit_target()
+
+func _spawn_spirit_target() -> void:
+	var free_spawners: Array[Marker2D] = []
+
+	for spawner in pickup_spawners:
+		if spawner not in occupied_collectable_spawners:
+			free_spawners.append(spawner)
+
+	if free_spawners.is_empty():
+		push_error("GameManager: Kein freier Spawnpunkt fuer das Spirit-Ziel.")
+		return
+
+	spirit_target_spawner = free_spawners.pick_random()
+	occupied_collectable_spawners.append(spirit_target_spawner)
+
+	var collectable := COLLECTABLE.instantiate() as Collectable
+	collectable.collected.connect(func(_definition: CollectableDefinition):
+		_on_spirit_target_collected()
+	)
+	%CollectableRoot.add_child(collectable)
+	collectable.setup(SPIRIT_TARGET)
+	collectable.global_position = spirit_target_spawner.global_position
+	collectable.name = "SpiritTarget"
+	spirit_target_collectable = collectable
+	spirit_target_collectable.set_countdown(spirit_timer.time_left)
+
+func _on_spirit_target_collected() -> void:
+	if spirit_target_spawner:
+		occupied_collectable_spawners.erase(spirit_target_spawner)
+
+	spirit_target_collectable = null
+	spirit_target_spawner = null
+	spirit_chain += 1
+	highscore += SPIRIT_TARGET_SCORE * spirit_chain
+	highscore_label.text = str(highscore)
+	spirit_timer.start(SPIRIT_TARGET_DURATION)
+	_spawn_spirit_target.call_deferred()
+
+func _on_spirit_timer_timeout() -> void:
+	if is_instance_valid(spirit_target_collectable):
+		spirit_target_collectable.visible = false
+	_game_over()
+
+func _end_spirit_mode() -> void:
 	player_mode = PlayerMode.NORMAL
 	player.set_spirit_mode(false)
-	time_since_last_collectable = 0
+	spirit_timer.stop()
+	spirit_target_active = false
+	spirit_chain = 0
 
+	if is_instance_valid(spirit_target_collectable):
+		spirit_target_collectable.queue_free()
+	if spirit_target_spawner:
+		occupied_collectable_spawners.erase(spirit_target_spawner)
+
+	spirit_target_collectable = null
+	spirit_target_spawner = null
+
+func _game_over() -> void:
+	is_game_over = true
+	get_tree().paused = true
+	timer.stop()
+	spawn_timer.stop()
+	spirit_timer.stop()
+	score_label.text = str("SCORE: ", highscore)
+	game_over_root.visible = true
+	
 func _on_spawn_timer_timeout() -> void:
 	var spawn_interval: float
 	var enemy_limit: int
