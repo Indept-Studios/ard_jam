@@ -13,10 +13,6 @@ func setup(new_definition: CollectableDefinition) -> void:
 	$Sprite2D.texture = definition.texture
 	queue_redraw()
 
-#func _draw() -> void:
-	#if definition:
-		#draw_circle(Vector2.ZERO, radius, definition.color)
-
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		collected.emit(definition)

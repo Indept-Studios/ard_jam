@@ -32,12 +32,9 @@ func _on_detonation_timer_timeout() -> void:
 	var killed_enemy_count := 0
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		var enemy_2d := enemy as Node2D
-
 		if enemy_2d == null:
 			continue
-
 		var distance: float = enemy_2d.global_position.distance_to(global_position)
-
 		if distance <= definition.radius:
 			enemy_2d.queue_free()
 			killed_enemy_count += 1
@@ -45,14 +42,12 @@ func _on_detonation_timer_timeout() -> void:
 		enemies_destroyed.emit(killed_enemy_count)
 	has_detonated = true
 	queue_redraw()
-
 	await get_tree().create_timer(0.12).timeout
 	queue_free()
 
 func _draw() -> void:
 	if not definition:
 		return
-
 	draw_circle(
 		Vector2.ZERO,
 		current_radius,

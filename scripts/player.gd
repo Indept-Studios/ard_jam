@@ -50,7 +50,6 @@ func set_modifier(definition: CollectableDefinition) -> void:
 		speed_modifier = definition.strength
 		speed_timer.start(speed_timer.time_left + definition.duration)
 		queue_redraw()
-		
 	elif definition.effect_type == CollectableDefinition.EffectType.INVULNERABLE:
 		is_invulnerable = true
 		shield_timer.start(shield_timer.time_left + definition.duration)

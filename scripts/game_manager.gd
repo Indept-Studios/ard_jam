@@ -84,7 +84,6 @@ func _physics_process(_delta: float) -> void:
 		var enemy: CharacterBody2D = enemy_node as CharacterBody2D
 		if enemy == null:
 			continue
-
 		var distance: float = enemy.global_position.distance_to(player.global_position)
 		if distance <= SPIRIT_KILL_RADIUS:
 			_destroy_spirit_enemy(enemy)
@@ -102,7 +101,6 @@ func _on_timer_timeout():
 		if not is_transforming and time_since_last_collectable >= SPIRIT_TRANSFORM_START_AFTER:
 			is_transforming = true
 			player.start_spirit_transformation()
-
 		if time_since_last_collectable >= SPIRIT_READY_AFTER:
 			start_spirit_mode()
 
@@ -119,14 +117,11 @@ func _on_quit_button_pressed():
 func _pick_spawner():
 	while collectable_count < max_collectables:
 		var free_spawners: Array[Node] = []
-
 		for spawner in pickup_spawners:
 			if spawner not in occupied_collectable_spawners:
 				free_spawners.append(spawner)
-
 		if free_spawners.is_empty():
 			return
-
 		var selected_spawner = free_spawners.pick_random()
 		occupied_collectable_spawners.append(selected_spawner)
 		_spawn_collectable(selected_spawner)
@@ -134,7 +129,6 @@ func _pick_spawner():
 func _spawn_collectable(spawner: Node2D) -> void:
 	var collectable = COLLECTABLE.instantiate()
 	var definition: CollectableDefinition = collectable_definitions.pick_random()
-
 	collectable.collected.connect(func(collected_definition: CollectableDefinition):
 		_on_collectable_collected(spawner, collected_definition)
 	)
@@ -154,7 +148,6 @@ func _on_collectable_collected(spawner: Node2D, definition: CollectableDefinitio
 		player.set_spirit_mode(false)
 	if player_mode == PlayerMode.SPIRIT:
 		_end_spirit_mode()
-
 	_apply_effect(definition)
 
 func _apply_effect(definition):
@@ -183,7 +176,6 @@ func _on_enemy_hit(enemy: CharacterBody2D):
 	if player.is_invulnerable:
 		enemy.queue_free()
 		return
-		
 	_game_over()
 
 func start_spirit_mode() -> void:
@@ -194,9 +186,7 @@ func start_spirit_mode() -> void:
 func _destroy_spirit_enemy(enemy: CharacterBody2D) -> void:
 	if not is_instance_valid(enemy):
 		return
-
 	enemy.queue_free()
-
 	if not spirit_target_active:
 		spirit_target_active = true
 		_start_spirit_challenge.call_deferred()
@@ -204,24 +194,19 @@ func _destroy_spirit_enemy(enemy: CharacterBody2D) -> void:
 func _start_spirit_challenge() -> void:
 	if player_mode != PlayerMode.SPIRIT or not spirit_target_active:
 		return
-
 	spirit_timer.start(SPIRIT_TARGET_DURATION)
 	_spawn_spirit_target()
 
 func _spawn_spirit_target() -> void:
 	var free_spawners: Array[Marker2D] = []
-
 	for spawner in pickup_spawners:
 		if spawner not in occupied_collectable_spawners:
 			free_spawners.append(spawner)
-
 	if free_spawners.is_empty():
 		push_error("GameManager: Kein freier Spawnpunkt fuer das Spirit-Ziel.")
 		return
-
 	spirit_target_spawner = free_spawners.pick_random()
 	occupied_collectable_spawners.append(spirit_target_spawner)
-
 	var collectable := COLLECTABLE.instantiate() as Collectable
 	collectable.collected.connect(func(_definition: CollectableDefinition):
 		_on_spirit_target_collected()
@@ -236,7 +221,6 @@ func _spawn_spirit_target() -> void:
 func _on_spirit_target_collected() -> void:
 	if spirit_target_spawner:
 		occupied_collectable_spawners.erase(spirit_target_spawner)
-
 	spirit_target_collectable = null
 	spirit_target_spawner = null
 	spirit_chain += 1
@@ -256,12 +240,10 @@ func _end_spirit_mode() -> void:
 	spirit_timer.stop()
 	spirit_target_active = false
 	spirit_chain = 0
-
 	if is_instance_valid(spirit_target_collectable):
 		spirit_target_collectable.queue_free()
 	if spirit_target_spawner:
 		occupied_collectable_spawners.erase(spirit_target_spawner)
-
 	spirit_target_collectable = null
 	spirit_target_spawner = null
 
@@ -277,7 +259,6 @@ func _game_over() -> void:
 func _on_spawn_timer_timeout() -> void:
 	var spawn_interval: float
 	var enemy_limit: int
-
 	if highscore > 45:
 		spawn_interval = 2.0
 		enemy_limit = 7
@@ -287,13 +268,10 @@ func _on_spawn_timer_timeout() -> void:
 	else:
 		spawn_interval = 4.0
 		enemy_limit = 3
-
 	_spawn_enemies(1, enemy_limit)
-
 	if highscore >= next_wave_at:
 		_spawn_enemies(2, enemy_limit)
 		next_wave_at += 15
-
 	spawn_timer.start(spawn_interval)
 
 func _spawn_enemies(amount: int, enemy_limit: int) -> void:
@@ -304,7 +282,6 @@ func _spawn_enemies(amount: int, enemy_limit: int) -> void:
 	var spawn_count: int = amount
 	if spawn_count > available_slots:
 		spawn_count = available_slots
-
 	for _index in spawn_count:
 		_spawn_enemy(enemy_spawners.pick_random())
 
