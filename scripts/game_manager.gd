@@ -137,7 +137,10 @@ func _on_enemy_hit(enemy: CharacterBody2D):
 	if player_mode == PlayerMode.SPIRIT:
 		enemy.queue_free()
 		return
-	
+	if player.is_invulnerable:
+		enemy.queue_free()
+		return
+		
 	if time_since_last_collectable >= 10.0:
 		start_sprite_mode()
 	else:
