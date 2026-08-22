@@ -6,9 +6,8 @@
 [resource]
 script = ExtResource("1_sdl37")
 texture = ExtResource("2_qhbky")
-display_name = "Spirit Bomb"
 effect_type = 1
-radius = 80.0
-duration = 1.0
+radius = 100.0
+duration = 0.75
 color = Color(1, 0.47843137, 0, 1)
 metadata/_custom_type_script = "uid://rplvial1j3fy"

@@ -6,8 +6,7 @@
 [resource]
 script = ExtResource("1_vwnup")
 texture = ExtResource("2_wlypf")
-display_name = "SpeedBoost"
-duration = 5.0
-strength = 1.25
+duration = 7.0
+strength = 1.3
 color = Color(1, 0.8235294, 0.24705882, 1)
 metadata/_custom_type_script = "uid://rplvial1j3fy"
