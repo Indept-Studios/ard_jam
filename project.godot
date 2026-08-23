@@ -14,7 +14,11 @@ config/name="Ghost Hunter"
 config/version="0.1.0"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+boot_splash/stretch_mode=5
+boot_splash/use_filter=false
+boot_splash/image="uid://bf3lw7v7iksh"
 config/icon="res://icon.svg"
+boot_splash/minimum_display_time=2000
 
 [display]
 
