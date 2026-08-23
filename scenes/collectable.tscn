@@ -6,6 +6,7 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kvpfn"]
 
 [node name="Collectable" type="Area2D" unique_id=1881569841]
+z_index = 1
 collision_layer = 4
 script = ExtResource("1_ti8a4")
 
