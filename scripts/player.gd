@@ -11,8 +11,11 @@ var speed_modifier: float = 1.0
 var speed_timer: Timer
 var is_invulnerable := false
 var shield_timer: Timer
+var hover_time := 0.0
+var base_sprite_position := Vector2.ZERO
 
 func _ready() -> void:
+	base_sprite_position = animated_sprite.position
 	speed_timer = Timer.new()
 	speed_timer.one_shot = true
 	speed_timer.timeout.connect(_on_speedtimer_timeout)
@@ -23,12 +26,21 @@ func _ready() -> void:
 	add_child(shield_timer)
 	animated_sprite.play("normal")
 
+func _process(delta: float) -> void:
+	hover_time += delta
+	var bob_offset := sin(hover_time * 3.0) * 1.5
+	var wobble := sin(hover_time * 4.5) * 0.015
+	animated_sprite.position = base_sprite_position + Vector2(0, bob_offset)
+	animated_sprite.scale = Vector2(1.0 + wobble, 1.0 - wobble)
+
 func get_input():
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * (speed * speed_modifier)
 
 func _physics_process(_delta):
 	get_input()
+	if velocity.x != 0.0:
+		animated_sprite.flip_h = velocity.x < 0.0
 	move_and_slide()
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
