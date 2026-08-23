@@ -10,7 +10,7 @@ const ENEMY_DEATH_EFFECT = preload("res://scenes/enemy_death_effect.tscn")
 @export var separation_radius := 45.0
 @export var separation_strength := 180.0
 
-var speed: float = 150.0
+var speed: float = 125.0
 var is_destroyed := false
 var hover_time := randf() * TAU
 var base_sprite_position := Vector2.ZERO

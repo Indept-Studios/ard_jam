@@ -9,7 +9,7 @@ const SHIELD_SOUND = preload("res://sounds/shild.wav")
 @onready var shield_particles: GPUParticles2D = $ShieldParticles
 @onready var spirit_particles: GPUParticles2D = $SpiritParticles
 
-var speed: float = 200.0
+var speed: float = 150.0
 var speed_modifier: float = 1.0
 var speed_timer: Timer
 var is_invulnerable := false

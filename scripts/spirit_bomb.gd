@@ -62,17 +62,17 @@ func _on_detonation_timer_timeout() -> void:
 func _draw() -> void:
 	if not definition:
 		return
-	draw_circle(
-		Vector2.ZERO,
-		current_radius,
-		Color(definition.color, 0.2)
-	)
-	if has_detonated:
-		draw_circle(
-			Vector2.ZERO,
-			definition.radius,
-			Color(definition.color, 0.6)
-		)
+	#draw_circle(
+		#Vector2.ZERO,
+		#current_radius,
+		#Color(definition.color, 0.2)
+	#)
+	#if has_detonated:
+		#draw_circle(
+			#Vector2.ZERO,
+			#definition.radius,
+			#Color(definition.color, 0.6)
+		#)
 	draw_arc(
 		Vector2.ZERO,
 		current_radius,
