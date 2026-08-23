@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+const SPEED_SOUND = preload("res://sounds/speed.wav")
+const SHIELD_SOUND = preload("res://sounds/shild.wav")
+
 @onready var screen_size = get_viewport_rect().size
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var speed_particles: GPUParticles2D = $SpeedParticles
@@ -13,9 +16,13 @@ var is_invulnerable := false
 var shield_timer: Timer
 var hover_time := 0.0
 var base_sprite_position := Vector2.ZERO
+var effect_sound: AudioStreamPlayer
 
 func _ready() -> void:
 	base_sprite_position = animated_sprite.position
+	effect_sound = AudioStreamPlayer.new()
+	effect_sound.volume_db = -6.0
+	add_child(effect_sound)
 	speed_timer = Timer.new()
 	speed_timer.one_shot = true
 	speed_timer.timeout.connect(_on_speedtimer_timeout)
@@ -64,10 +71,14 @@ func set_modifier(definition: CollectableDefinition) -> void:
 	if definition.effect_type == CollectableDefinition.EffectType.SPEED:
 		speed_modifier = definition.strength
 		speed_timer.start(speed_timer.time_left + definition.duration)
+		effect_sound.stream = SPEED_SOUND
+		effect_sound.play()
 		queue_redraw()
 	elif definition.effect_type == CollectableDefinition.EffectType.INVULNERABLE:
 		is_invulnerable = true
 		shield_timer.start(shield_timer.time_left + definition.duration)
+		effect_sound.stream = SHIELD_SOUND
+		effect_sound.play()
 		queue_redraw()
 
 func _on_speedtimer_timeout():

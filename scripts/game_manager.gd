@@ -17,6 +17,7 @@ const COLLECTABLE = preload("uid://df1b2gd4xli0d")
 const ENEMY = preload("uid://deet1vbsx6s3x")
 const SPIRIT_BOMB = preload("res://scenes/spirit_bomb.tscn")
 const SPIRIT_TARGET = preload("res://resources/spirit_target.tres")
+const LILA_SOUND = preload("res://sounds/lila.wav")
 const SPIRIT_KILL_RADIUS := 35.0
 const SPIRIT_READY_AFTER := 10.0
 const SPIRIT_TRANSFORM_DURATION := 8.0
@@ -39,6 +40,7 @@ var spirit_target_collectable: Collectable
 var spirit_target_spawner: Marker2D
 var spirit_chain := 0
 var spirit_timer: Timer
+var lila_sound: AudioStreamPlayer
 
 var highscore: int = 0
 var is_game_over := false
@@ -54,6 +56,10 @@ enum PlayerMode {
 func _ready():
 	timer.start(1)
 	spawn_timer.start(4.0)
+	lila_sound = AudioStreamPlayer.new()
+	lila_sound.stream = LILA_SOUND
+	lila_sound.volume_db = -6.0
+	add_child(lila_sound)
 	spirit_timer = Timer.new()
 	spirit_timer.one_shot = true
 	spirit_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -219,6 +225,7 @@ func _spawn_spirit_target() -> void:
 	spirit_target_collectable.set_countdown(spirit_timer.time_left)
 
 func _on_spirit_target_collected() -> void:
+	lila_sound.play()
 	if spirit_target_spawner:
 		occupied_collectable_spawners.erase(spirit_target_spawner)
 	spirit_target_collectable = null

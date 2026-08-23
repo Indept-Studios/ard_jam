@@ -2,14 +2,21 @@ extends Node2D
 
 signal enemies_destroyed(amount: int)
 
+const BOMB_SOUND = preload("res://sounds/bomb.wav")
+
 @onready var detonation_timer: Timer = $DetonationTimer
 @onready var explosion_particles: GPUParticles2D = $ExplosionParticles
 
 var definition: CollectableDefinition
 var current_radius := 0.0
 var has_detonated := false
+var bomb_sound: AudioStreamPlayer
 
 func _ready() -> void:
+	bomb_sound = AudioStreamPlayer.new()
+	bomb_sound.stream = BOMB_SOUND
+	bomb_sound.volume_db = -6.0
+	add_child(bomb_sound)
 	detonation_timer.one_shot = true
 	detonation_timer.timeout.connect(_on_detonation_timer_timeout)
 	
@@ -30,6 +37,7 @@ func _process(_delta: float) -> void:
 func _on_detonation_timer_timeout() -> void:
 	current_radius = definition.radius
 	queue_redraw()
+	bomb_sound.play()
 	explosion_particles.restart()
 	explosion_particles.emitting = true
 	var killed_enemy_count := 0
