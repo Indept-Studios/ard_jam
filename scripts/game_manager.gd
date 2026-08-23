@@ -12,17 +12,21 @@ extends Node
 @onready var enemy_spawner = %EnemySpawner
 @onready var enemy_root = %EnemyRoot
 @onready var score_label = %ScoreLabel
+@onready var absolute_highscore_label = %AbsolutHighscoreLabel
 
 const COLLECTABLE = preload("uid://df1b2gd4xli0d")
 const ENEMY = preload("uid://deet1vbsx6s3x")
 const SPIRIT_BOMB = preload("res://scenes/spirit_bomb.tscn")
 const SPIRIT_TARGET = preload("res://resources/spirit_target.tres")
 const LILA_SOUND = preload("res://sounds/lila.wav")
+const HIGHSCORE_SAVE_PATH := "user://highscore.cfg"
+const HIGHSCORE_SECTION := "highscore"
+const HIGHSCORE_KEY := "best_score"
 const SPIRIT_KILL_RADIUS := 35.0
 const SPIRIT_READY_AFTER := 10.0
 const SPIRIT_TRANSFORM_DURATION := 8.0
 const SPIRIT_TRANSFORM_START_AFTER := SPIRIT_READY_AFTER - SPIRIT_TRANSFORM_DURATION
-const SPIRIT_TARGET_DURATION := 6.0
+const SPIRIT_TARGET_DURATION := 9.0
 const SPIRIT_TARGET_SCORE := 5
 const SPIRIT_BOMB_KILL_SCORE := 4
 
@@ -43,6 +47,7 @@ var spirit_timer: Timer
 var lila_sound: AudioStreamPlayer
 
 var highscore: int = 0
+var absolute_highscore: int = 0
 var is_game_over := false
 
 var next_wave_at: int = 30
@@ -56,6 +61,7 @@ enum PlayerMode {
 func _ready():
 	timer.start(1)
 	spawn_timer.start(4.0)
+	_load_absolute_highscore()
 	lila_sound = AudioStreamPlayer.new()
 	lila_sound.stream = LILA_SOUND
 	lila_sound.volume_db = -6.0
@@ -66,6 +72,7 @@ func _ready():
 	spirit_timer.timeout.connect(_on_spirit_timer_timeout)
 	add_child(spirit_timer)
 	highscore_label.text = str(highscore)
+	absolute_highscore_label.text = str("HIGHSCORE: ", absolute_highscore)
 	for child in collectable_spawner.get_children():
 		if child is Marker2D:
 			pickup_spawners.append(child)
@@ -256,12 +263,26 @@ func _end_spirit_mode() -> void:
 
 func _game_over() -> void:
 	is_game_over = true
+	if highscore > absolute_highscore:
+		absolute_highscore = highscore
+		_save_absolute_highscore()
 	get_tree().paused = true
 	timer.stop()
 	spawn_timer.stop()
 	spirit_timer.stop()
 	score_label.text = str("SCORE: ", highscore)
+	absolute_highscore_label.text = str("HIGHSCORE: ", absolute_highscore)
 	game_over_root.visible = true
+
+func _load_absolute_highscore() -> void:
+	var config := ConfigFile.new()
+	if config.load(HIGHSCORE_SAVE_PATH) == OK:
+		absolute_highscore = int(config.get_value(HIGHSCORE_SECTION, HIGHSCORE_KEY, 0))
+
+func _save_absolute_highscore() -> void:
+	var config := ConfigFile.new()
+	config.set_value(HIGHSCORE_SECTION, HIGHSCORE_KEY, absolute_highscore)
+	config.save(HIGHSCORE_SAVE_PATH)
 	
 func _on_spawn_timer_timeout() -> void:
 	var spawn_interval: float

@@ -498,6 +498,14 @@ text = "SCORE: 00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AbsolutHighscoreLabel" type="Label" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer" unique_id=538190967]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "HIGHSCORE: 00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CenterContainer" type="CenterContainer" parent="GameOverLayer/GameOverRoot/PanelContainer/VBoxContainer" unique_id=767722313]
 layout_mode = 2
 
