@@ -3,6 +3,7 @@ extends Node2D
 signal enemies_destroyed(amount: int)
 
 @onready var detonation_timer: Timer = $DetonationTimer
+@onready var explosion_particles: GPUParticles2D = $ExplosionParticles
 
 var definition: CollectableDefinition
 var current_radius := 0.0
@@ -29,6 +30,8 @@ func _process(_delta: float) -> void:
 func _on_detonation_timer_timeout() -> void:
 	current_radius = definition.radius
 	queue_redraw()
+	explosion_particles.restart()
+	explosion_particles.emitting = true
 	var killed_enemy_count := 0
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		var enemy_2d := enemy as Node2D
@@ -36,13 +39,16 @@ func _on_detonation_timer_timeout() -> void:
 			continue
 		var distance: float = enemy_2d.global_position.distance_to(global_position)
 		if distance <= definition.radius:
-			enemy_2d.queue_free()
+			if enemy_2d.has_method("destroy"):
+				enemy_2d.destroy()
+			else:
+				enemy_2d.queue_free()
 			killed_enemy_count += 1
 	if killed_enemy_count > 0:
 		enemies_destroyed.emit(killed_enemy_count)
 	has_detonated = true
 	queue_redraw()
-	await get_tree().create_timer(0.12).timeout
+	await get_tree().create_timer(0.5).timeout
 	queue_free()
 
 func _draw() -> void:
@@ -57,7 +63,7 @@ func _draw() -> void:
 		draw_circle(
 			Vector2.ZERO,
 			definition.radius,
-			Color(1.0, 1.0, 1.0, 0.8)
+			Color(definition.color, 0.6)
 		)
 	draw_arc(
 		Vector2.ZERO,

@@ -2,11 +2,14 @@ extends CharacterBody2D
 
 signal enemy_hit
 
+const ENEMY_DEATH_EFFECT = preload("res://scenes/enemy_death_effect.tscn")
+
 @export var player: CharacterBody2D 
 @export var separation_radius := 45.0
 @export var separation_strength := 180.0
 
 var speed: float = 150.0
+var is_destroyed := false
 
 func _physics_process(_delta) -> void:
 	if not player:
@@ -30,3 +33,13 @@ func _physics_process(_delta) -> void:
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("Player"):
 		enemy_hit.emit(self)
+
+func destroy() -> void:
+	if is_destroyed:
+		return
+
+	is_destroyed = true
+	var death_effect := ENEMY_DEATH_EFFECT.instantiate() as GPUParticles2D
+	get_tree().current_scene.add_child(death_effect)
+	death_effect.global_position = global_position
+	queue_free()

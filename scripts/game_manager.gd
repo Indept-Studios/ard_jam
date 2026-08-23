@@ -174,7 +174,7 @@ func _on_enemy_hit(enemy: CharacterBody2D):
 		_destroy_spirit_enemy(enemy)
 		return
 	if player.is_invulnerable:
-		enemy.queue_free()
+		enemy.destroy()
 		return
 	_game_over()
 
@@ -186,7 +186,7 @@ func start_spirit_mode() -> void:
 func _destroy_spirit_enemy(enemy: CharacterBody2D) -> void:
 	if not is_instance_valid(enemy):
 		return
-	enemy.queue_free()
+	enemy.destroy()
 	if not spirit_target_active:
 		spirit_target_active = true
 		_start_spirit_challenge.call_deferred()

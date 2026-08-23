@@ -2,6 +2,9 @@ extends CharacterBody2D
 
 @onready var screen_size = get_viewport_rect().size
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var speed_particles: GPUParticles2D = $SpeedParticles
+@onready var shield_particles: GPUParticles2D = $ShieldParticles
+@onready var spirit_particles: GPUParticles2D = $SpiritParticles
 
 var speed: float = 200.0
 var speed_modifier: float = 1.0
@@ -29,13 +32,17 @@ func _physics_process(_delta):
 	move_and_slide()
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
+	speed_particles.emitting = speed_modifier > 1.0 and velocity.length() > 0.0
+	shield_particles.emitting = is_invulnerable
 
 func set_spirit_mode(enabled: bool) -> void:
 	if enabled:
 		animated_sprite.play("spirit")
+		spirit_particles.emitting = true
 		set_collision_mask_value(4, false)
 	else:
 		animated_sprite.play("normal")
+		spirit_particles.emitting = false
 		set_collision_mask_value(4, true)
 
 func start_spirit_transformation() -> void:

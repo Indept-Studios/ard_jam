@@ -1,8 +1,30 @@
 [gd_scene format=3 uid="uid://oca1jxy2oyl0"]
 
 [ext_resource type="Script" uid="uid://bybne2uo28st1" path="res://scripts/spirit_bomb.gd" id="1_21vqo"]
+[ext_resource type="Texture2D" uid="uid://cbt63rfsqx8my" path="res://sprites/sparks.png" id="2_0kt2p"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_21vqo"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(1, 0, 0)
+spread = 180.0
+initial_velocity_min = 200.0
+initial_velocity_max = 280.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 1.1999999
+color = Color(1, 0.47843137, 0, 1)
 
 [node name="SpiritBomb" type="Node2D" unique_id=915911652]
 script = ExtResource("1_21vqo")
 
 [node name="DetonationTimer" type="Timer" parent="." unique_id=1215984457]
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="." unique_id=666777837]
+emitting = false
+amount = 18
+texture = ExtResource("2_0kt2p")
+lifetime = 0.45
+one_shot = true
+explosiveness = 1.0
+randomness = 0.2
+process_material = SubResource("ParticleProcessMaterial_21vqo")
